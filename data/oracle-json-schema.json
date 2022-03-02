@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://angryteenagers.xyz",
+    "type": "object",
+    "title": "Angry Teenagers Oracle Data Schema",
+    "description": "Oracle data schema for the Angry Teenagers NFT project.",
+    "examples": [
+        {
+            "createdAt": "2022-01-01T01:02:03.04Z",
+            "description": "An image showing reforestation over the last month.",
+            "contentURI": "https://angryteenagers.xyz"
+        }
+    ],
+    "required": [
+        "createdAt",
+        "description",
+        "contentURI"
+    ],
+    "properties": {
+        "createdAt": {
+            "$id": "#/properties/createdAt",
+            "type": "string",
+            "title": "The createdAt property",
+            "description": "Normalized RFC3339 timestamp for when this commit was created."
+        },
+        "description": {
+            "$id": "#/properties/description",
+            "type": "string",
+            "title": "The description property",
+            "description": "Human-readable text that gives insight into the content of the commit and its purpose."
+        },
+        "contentURI": {
+            "$id": "#/properties/contentURI",
+            "type": "string",
+            "format": "uri",
+            "title": "The contentURI property",
+            "description": "A valid URI that points to the content of this commit. The content can be of any type, hosted in any location."
+        }
+    },
+    "additionalProperties": true
+}
