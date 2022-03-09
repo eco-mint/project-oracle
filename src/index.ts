@@ -10,25 +10,28 @@ program
     .name('eco-oracle')
     .version('0.0.1')
     .description("A CLI for administering EcoMint project oracles")
+    .option('--ceramic <ceramicUri>', 'ceramic node uri', 'https://ceramic-clay.3boxlabs.com')
     .option('--identity <filePath>', 'reference to identity document used in ceramic auth');
 
 program.command('identity')
     .description("generate a new identity and output to the console")
     .action(async () => {
-        await identity.createIdentity()
+        const seed: string = await identity.createIdentity()
+        console.log("created identity with seed: %s", seed)
     });
 
 program.command('create')
     .description("create a new oracle stream")
-    .option('--schema <filePath>', 'specify a schema file for a new oracle')
+    .option('--schema <filePath>', 'specify a schema file for a new oracle', '../data/oracle-json.schema.json')
     .action(async (filePath) => {
-        await stream.createStream(filePath)
+        const streamId: string = await stream.createStream(filePath)
+        console.log("created stream with id: %s", streamId)
     });
 
 program.command('view')
     .description("view an oracle and its data")
     .argument('<streamId>', 'stream id of the oracle')
-    .option('--id <id>', 'commit id to view')
+    .option('--commit <commitId>', 'commit id to view')
     .option('--latest', 'view the latest commit')
     .action(async (streamId, {commitId, latest}) => {
         await stream.viewStream(streamId, commitId, latest)
