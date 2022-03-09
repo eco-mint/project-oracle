@@ -1,0 +1,37 @@
+{
+  "name": "project-oracle",
+  "version": "1.0.0",
+  "description": "Ceramic Stream based oracle tooling.",
+  "main": "./lib/index.js",
+  "bin": {
+    "eco-oracle": "./lib/index.js"
+  },
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "create": "npm run build && npm run test",
+    "build": "tsc -p .",
+    "local": "sudo npm i -g && eco-oracle",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eco-mint/project-oracle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eco-mint/project-oracle/issues"
+  },
+  "homepage": "https://github.com/eco-mint/project-oracle#readme",
+  "dependencies": {
+    "commander": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}
