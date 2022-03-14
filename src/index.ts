@@ -22,16 +22,16 @@ program.command('identity')
 program.command('create')
   .description('create a new oracle stream')
   .option('--description <description>', 'description of the first commit', 'First commit for the Angry Teenagers NFT project oracle.')
-  .option('--contentUri <uri>', 'uri for the first commit', 'https://angryteenagers.xyz')
-  .action(async (description, uri) => {
-    const streamId: string = await stream.createStream(description, uri)
+  .option('--contentUri <contentUri>', 'uri for the first commit', 'https://angryteenagers.xyz')
+  .action(async ({ description, contentUri }) => {
+    const streamId: string = await stream.createStream(description, contentUri)
     console.log('created stream with id: %s', streamId)
   })
 
 program.command('view')
   .description('view an oracle and its data')
   .argument('<streamId>', 'stream id of the oracle')
-  .option('--commit <commitId>', 'commit id to view')
+  .option('--commitId <commitId>', 'commit id to view')
   .option('--latest', 'view the latest commit')
   .action(async (streamId, { commitId, latest }) => {
     await stream.viewStream(streamId, commitId, latest)
