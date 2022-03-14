@@ -21,8 +21,8 @@ program.command('identity')
 
 program.command('create')
   .description('create a new oracle stream')
-  .option('--description <description>', 'description of the first commit', 'First commit for the Angry Teenagers NFT project oracle.')
-  .option('--contentUri <contentUri>', 'uri for the first commit', 'https://angryteenagers.xyz')
+  .option('--description <description>', 'description for the first commit', 'First commit for the Angry Teenagers NFT project oracle.')
+  .option('--contentUri <contentUri>', 'content uri for the first commit', 'https://angryteenagers.xyz')
   .action(async ({ description, contentUri }) => {
     const streamId: string = await stream.createStream(description, contentUri)
     console.log('created stream with id: %s', streamId)
@@ -40,10 +40,10 @@ program.command('view')
 program.command('update')
   .description('update an oracle')
   .argument('<streamId>', 'stream id of the oracle')
-  .option('--description <description>', 'commit description')
-  .option('--uri <uri>', 'commit uri')
-  .action(async (streamId, { description, uri }) => {
-    await stream.updateStream(streamId, description, uri)
+  .option('--description <description>', 'description for the commit')
+  .option('--contentUri <contentUri>', 'content uri for the commit')
+  .action(async (streamId, { description, contentUri }) => {
+    await stream.updateStream(streamId, description, contentUri)
   })
 
 program.parse(process.argv)

@@ -22,19 +22,26 @@ interface OracleCommit {
 }
 
 /**
- * Create a stream
+ * Create a stream with a description and uri
  */
-export async function createStream (desc: string, uri: string): Promise<string> {
+export async function createStream (description: string, contentUri: string): Promise<string> {
   // console.debug('creating stream with schema - %s - %s', desc, uri)
   await authenticateCeramic()
 
   // create a tile document stream and pin it
-  const content: OracleCommit = generateCommitData(desc, uri)
+  const content: OracleCommit = generateCommitData(description, contentUri)
   const doc = await TileDocument.create(ceramic, content, undefined, { pin: true })
 
   return doc.id.toString()
 }
 
+/**
+ * View a stream
+ * Able to do three possible things:
+ * (1) view information about a stream including its controllers and commits
+ * (2) view a specific commit id for a stream
+ * (3) view information from the latest commit in a stream
+ */
 export async function viewStream (streamId: string, commitId: string, latest: boolean) {
   // console.debug('viewing stream with id-commitId-latest', streamId, commitId, latest)
   await authenticateCeramic()
@@ -42,14 +49,16 @@ export async function viewStream (streamId: string, commitId: string, latest: bo
   if (commitId !== undefined) {
     console.log('Viewing commit %s', commitId)
     const loaded = await TileDocument.load(ceramic, commitId)
-    console.log(loaded)
+    const extracted = extractOracleCommit(loaded)
+    console.log(extracted)
     return
   }
 
   const loaded = await TileDocument.load(ceramic, streamId)
   if (latest) {
     console.log('Viewing latest commit for stream %s', streamId)
-    console.log(loaded.content)
+    const extracted = extractOracleCommit(loaded)
+    console.log(extracted)
   } else {
     console.log('Viewing stream:', streamId)
     console.log('Controllers:', loaded.metadata.controllers)
@@ -57,10 +66,29 @@ export async function viewStream (streamId: string, commitId: string, latest: bo
   }
 }
 
-export async function updateStream (streamId: string, description: string, uri: string) {
-  console.debug('updating stream %s-%s-%s', streamId, description, uri)
+/**
+ * Update a stream with a description and uri
+ */
+export async function updateStream (streamId: string, description: string, contentUri: string) {
+  // console.debug('updating stream %s-%s-%s', streamId, description, contentUri)
+
+  if (description === undefined || contentUri === undefined) {
+    console.log('must have both --description and --contentUri flags set')
+    return
+  }
 
   await authenticateCeramic()
+
+  // load stream, generate new commit data
+  const loaded = await TileDocument.load(ceramic, streamId)
+  const content: OracleCommit = generateCommitData(description, contentUri)
+
+  // update the document with the commit content
+  await loaded.update(content)
+
+  // load the updated stream and read back the last written record
+  const updated = await TileDocument.load(ceramic, streamId)
+  console.log('Updated stream, latest commit: ', updated.content)
 }
 
 // `seed` must be a 32-byte long Uint8Array
@@ -87,5 +115,16 @@ function generateCommitData (desc: string, uri: string): OracleCommit {
     createdAt: timestamp,
     description: desc,
     contentUri: uri
+  }
+}
+
+// from a tile document, pull out our known content structure
+function extractOracleCommit (doc: TileDocument<unknown>): OracleCommit {
+  const loadedContent = JSON.stringify(doc.content)
+  const jsonContent = JSON.parse(loadedContent)
+  return {
+    createdAt: jsonContent.createdAt,
+    description: jsonContent.description,
+    contentUri: jsonContent.contentUri
   }
 }
