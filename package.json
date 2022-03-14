@@ -19,7 +19,7 @@
     "url": "git+https://github.com/eco-mint/project-oracle.git"
   },
   "keywords": [],
-  "author": "EcoMint ltd.",
+  "author": "EcoMint Ltd.",
   "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/eco-mint/project-oracle/issues"
@@ -40,9 +40,16 @@
   "devDependencies": {
     "@types/commander": "^2.12.2",
     "@types/node": "^17.0.21",
-    "eslint": "^8.10.0",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.7.0",
+    "tsconfig-paths": "^3.14.0",
     "typescript": "^4.6.2"
   }
 }
