@@ -16,8 +16,26 @@ greatest amount of flexibility in supporting project-updates of multiple types.
 
 # Build & Install
 
+## Install NPM
+
+If you do not yet have npm installed, it must be installed first as a pre-requisite. The [NPM documentation](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) is useful for this.
+
+For example, on MacOS you can run the following command using [Homebrew](https://brew.sh/):
+
+```
+brew install node
+```
+
+and then
+
+```
+sudo npm install -g typescript
+```
+
+## Install the Project
+
 For now the project is not published to NPM. Instead, you must build it locally. To do this run check out the project, 
-cd to its directory, and run `npm run build` followed by `npm run local`.
+cd to its directory, and run `npm run i` to fetch and install all dependencies. Next, `npm run build` followed by `npm run local`.
 
 After running, you should be able to access the binary via the `eco-oracle` command.
 
