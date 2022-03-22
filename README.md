@@ -35,7 +35,7 @@ sudo npm install -g typescript
 ## Install the Project
 
 For now the project is not published to NPM. Instead, you must build it locally. To do this run check out the project, 
-cd to its directory, and run `npm run i` to fetch and install all dependencies. Next, `npm run build` followed by `npm run local`.
+cd to its directory, and run `npm i` to fetch and install all dependencies. Next, `npm run build` followed by `npm run local`.
 
 After running, you should be able to access the binary via the `eco-oracle` command.
 
